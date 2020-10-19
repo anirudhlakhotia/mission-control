@@ -5,7 +5,10 @@ import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import { getToken } from"./../api/token";
 import jwt_decode from "jwt-decode";
 const StudentDash = ({ navigation }) => {
-var token =  await getToken();
+  var token = "";
+  async () => {   
+    token =  await getToken();
+  }
 console.log(token)
 var decoded = jwt_decode(token);
 console.log(decoded)
