@@ -5,6 +5,7 @@ export const login = (username, password) => {
   });
 };
 export const createAccount = (username, password) => {
+  console.log(username, password)
   return post('/register', {
     user: { username, password },
   });

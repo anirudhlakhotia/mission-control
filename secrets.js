@@ -1,1 +1,2 @@
-export const API_URL = 'https://cors-anywhere.herokuapp.com/http://52.237.113.229:3000'
+export const API_URL = 'https://fake.com'
+// http://52.237.113.229:3000

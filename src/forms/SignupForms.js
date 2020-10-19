@@ -1,35 +1,43 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, TextInput, Button, Text } from 'react-native';
 import { setToken } from '../api/token';
-
-const SignupForm = ({ buttonText, onSubmit, children, onAuthentication }) => {
-  const [email, onChangeEmail] = useState('');
+import { createAccount } from '../api/authentication';
+const SignupForm = ({ buttonText, onSubmit, children, onAuthentication ,navigation}) => {
+  const [name, onChangeName] = useState('');
   const [password, onChangePassword] = useState('');
+  const [confpassword, onChangeConfPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const[email,onChangeEmail]=useState('');
+  // const submit = () => {
+  //   onSubmit(email, password)
+  //     .then(async (res) => {
+  //       await setToken(res.auth_token);
+  //       onAuthentication();
+  //     })
+  //     .catch((res) => {
+  //       if (res && res.error) {
+  //         setErrorMessage(res.error);
+  //       }
 
-  const submit = () => {
-    onSubmit(email, password)
-      .then(async (res) => {
-        await setToken(res.auth_token);
-        onAuthentication();
-      })
-      .catch((res) => {
-        if (res && res.error) {
-          setErrorMessage(res.error);
-        }
+  //       setErrorMessage('Something went wrong.');
+  //     });
+  // };
+const submit=()=>{
+  if (password == confpassword){
+    console.log('Yes')
+  }
+ else{
+   console.log('No')
+ }
 
-        setErrorMessage('Something went wrong.');
-      });
-  };
-
+}
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <TextInput
-        placeholder='Enter your email ID'
+        placeholder='Enter your Name'
         style={styles.input}
-        onChangeText={(text) => onChangeEmail(text)}
-        value={email}
-        keyboardType="email-address"
+        onChangeText={(text) => onChangeName(text)}
+        value={name}
       />
       <TextInput
         placeholder='Enter your Password'
@@ -38,9 +46,23 @@ const SignupForm = ({ buttonText, onSubmit, children, onAuthentication }) => {
         value={password}
         secureTextEntry
       />
-       <br>
-      </br>
-      <Button title={buttonText} color='black' onPress={submit} />
+       <TextInput
+        placeholder='Confirm your Password'
+        style={styles.input}
+        onChangeText={(text) => onChangeConfPassword(text)}
+        value={confpassword}
+        secureTextEntry
+      />
+      <TextInput 
+        label="Email"
+        placeholder="Email"
+        value={email}
+        blurOnSubmit={false}
+        maxLength={100}
+        style={styles.input}
+        onChangeText={(text) => onChangeEmail(text)}
+      />
+      {/* <Button title={buttonText} color='black' onPress={}/> */}
       {errorMessage ? <Text>{errorMessage}</Text> : null}
       {children}
     </ScrollView>
