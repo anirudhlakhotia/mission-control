@@ -50,6 +50,7 @@ post('/login',formBody).then(async (res) => {
     const response = await setToken(res.data.token)
     if(response !== false) {
       //this means it worked. your token should be fine
+      // the value is set
     }
   else {
     //means it failed
