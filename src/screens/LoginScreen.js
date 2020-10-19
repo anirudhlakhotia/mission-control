@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -15,7 +15,9 @@ import * as yup from 'yup'
 import { Formik } from 'formik'
 import { widthPercentageToDP } from 'react-native-responsive-screen'
 import {post} from './../api/fetch'
+import {setToken} from './../api/token'
 const LoginScreen = () => {
+    const [errorMessage, setErrorMessage] = useState('');
     const loginValidationSchema = yup.object().shape({
         email: yup
           .string()
@@ -32,25 +34,28 @@ const LoginScreen = () => {
    validationSchema={loginValidationSchema}
    initialValues={{ email: '', password: '' }}
    onSubmit={values => {
-    let formDat = new FormData();
-    formDat.append('username',values.email)
-    formDat.append('password',values.password)
-    for (var value of formDat.values()) {
-        console.log(value); 
-     }
-     console.log((
-        {
-            'username': values.email,
-            'password':values.password
-        }.username
-     )
-     )
-    post('/login',{
-        'username': values.email,
-        'password':values.password
-    }).then(async (res)=>{
-        console.log(res)
-      })
+  var params={
+    'username': values.email,
+    'password':values.password
+}
+var formBody=[]
+for (var property in params){
+    var encodedKey= encodeURIComponent(property)
+    var encodedValue=encodeURIComponent(params[property])
+    formBody.push(encodedKey+ "="+ encodedValue)
+}
+formBody=formBody.join("&")
+post('/login',formBody).then(async (res) => {
+    console.log(res.data)
+    await setToken(res.data.token)
+    
+  }).catch((res) => {
+    if (res && res.error) {
+      setErrorMessage(res.error);
+    }
+
+    setErrorMessage('Something went wrong.');
+  });
    }}
  >
    {({

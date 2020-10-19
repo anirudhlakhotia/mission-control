@@ -20,8 +20,10 @@ export const post = async (destination, body) => {
 
   const result = await fetch(`${API_URL}${destination}`, {
     method: 'POST',
-    headers,
-    body:JSON.stringify(body)
+    headers:{
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    body:body
   });
   const formattedResult = await formatResult(result);
   return formattedResult;

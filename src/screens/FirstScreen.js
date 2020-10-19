@@ -12,7 +12,7 @@ const FirstScreen = ({ navigation }) => {
 const print= ()=>{
   // console.log(state.Email)
   // if(state.Email){
-  navigation.navigate('ShopScreen')
+  navigation.navigate('Signup')
   // }
 }
 
