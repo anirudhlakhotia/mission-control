@@ -47,8 +47,13 @@ for (var property in params){
 formBody=formBody.join("&")
 post('/login',formBody).then(async (res) => {
     console.log(res.data)
-    await setToken(res.data.token)
-    
+    const response = await setToken(res.data.token)
+    if(response !== false) {
+      //this means it worked. your token should be fine
+    }
+  else {
+    //means it failed
+    }
   }).catch((res) => {
     if (res && res.error) {
       setErrorMessage(res.error);
