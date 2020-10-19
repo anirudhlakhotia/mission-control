@@ -1,87 +1,142 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity,StyleSheet,Image,Dimensions,ScrollView,TextInput} from 'react-native';
-import { login } from '../api/authentication';
-import SignupForm from '../forms/SignupForms';
-import { getUsers } from '../api/users';
-import  Untitled from '../forms/src/screens/Untitled'
-import Icon from 'react-native-vector-icons/SimpleLineIcons';
-import { TouchableHighlight } from 'react-native-gesture-handler';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-const FirstScreen = ({ navigation }) => {
-// const [state, setState] = useState({
-//     Name:'',
-//     Email:'',
-//   })
+import React from 'react'
+import {
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  View,
+  Text,
+  StatusBar,
+  Button,
+  TextInput,
+  TouchableOpacity,
+  
+} from 'react-native'
+import * as yup from 'yup'
+import { Formik } from 'formik'
+import { widthPercentageToDP } from 'react-native-responsive-screen'
+import {post} from './../api/fetch'
+const LoginScreen = () => {
+    const loginValidationSchema = yup.object().shape({
+        email: yup
+          .string()
+          .email("Please enter valid email")
+          .required('Email Address is Required'),
+        password: yup
+          .string()
+          .min(8, ({ min }) => `Password must be at least ${min} characters`)
+          .required('Password is required'),
+      })
+  return (
+    <View style={styles.loginContainer}>
+    <Formik
+   validationSchema={loginValidationSchema}
+   initialValues={{ email: '', password: '' }}
+   onSubmit={values => {
+    let formDat = new FormData();
+    formDat.append('username',values.email)
+    formDat.append('password',values.password)
+    for (var value of formDat.values()) {
+        console.log(value); 
+     }
+     console.log((
+        {
+            'username': values.email,
+            'password':values.password
+        }.username
+     )
+     )
+    post('/login',{
+        'username': values.email,
+        'password':values.password
+    }).then(async (res)=>{
+        console.log(res)
+      })
+   }}
+ >
+   {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              errors,
+              touched,
+              isValid,
+            }) => (
+               
+     <>
+     
+                
+       <TextInput
+         name="email"
+         placeholder="Email Address"
+         style={styles.textInput}
+         onChangeText={handleChange('email')}
+         onBlur={handleBlur('email')}
+         value={values.email}
+         keyboardType="email-address"
+       />
+       {(errors.email && touched.email) &&
+                    <Text style={styles.errorText}>{errors.email}</Text>
+                  }
+       <TextInput
+         name="password"
+         placeholder="Password"
+         style={styles.textInput}
+         onChangeText={handleChange('password')}
+         onBlur={handleBlur('password')}
+         value={values.password}
+         secureTextEntry
+       />
+         {(errors.password && touched.password) &&
+                    <Text style={styles.errorText}>{errors.password}</Text>
+                  }
+        <Text>{'\n'}</Text>
 
-const print= ()=>{
-  // console.log(state.Email)
-  // if(state.Email){
-  navigation.navigate('ShopScreen')
-  // }
+       {/* <Button  color="#9370DB" style={{borderRadius:widthPercentageToDP('30%')}}
+         onPress={handleSubmit}
+         title="LOGIN"
+         disabled={!isValid}
+       /> */}
+       <TouchableOpacity onPress={handleSubmit} disabled={!isValid} style={{backgroundColor: '#9370DB',height: widthPercentageToDP('10%'),
+        width: widthPercentageToDP('70%'),borderRadius:widthPercentageToDP('5%'),overflow:'hidden',alignSelf:'center' }}>
+   <Text style={{textAlign:'center',color:'white',fontFamily:'sans-serif',marginTop:widthPercentageToDP('2%')}}>LOGIN</Text>
+</TouchableOpacity>
+     </>
+   )}
+ </Formik>
+  </View>
+  )
 }
 
-  return (
-  //  <Untitled></Untitled>
-   <View style={styles.container}>
-     <Image source={{uri: 'https://www.happyschool.com/images/heroimg.svg'}}
-       style={{width: wp('60%'), height: hp('50%'),resizeMode:'center',marginLeft:wp('10%'),marginTop:wp('-10%')}} />
-       <Text style={styles.text}>Hey There</Text>
-
-      {/* <TextInput 
-        label="Email"
-        placeholder="Email"
-        value={state.Email}
-        blurOnSubmit={false}
-        maxLength={100}
-        onChangeText={(text) => setState({Email: text})}
-        style={{fontSize:wp('5%'),size:wp('5%'),marginTop:wp('5%'),marginLeft:wp("10%")}}
-      /> */}
-  <TouchableOpacity style={styles.button} onPress={print}>
-    <Text>Continue</Text>
-  </TouchableOpacity>
-   </View>
-  //   <SignupForm
-  //     buttonText="Log in"
-  //     onSubmit={login}
-  //     onAuthentication={() => navigation.navigate('Home')}
-  //   >
-  //     <br>
-  //     </br>
-  //     <Button 
-  //       color='black'
-  //       title="Create account"
-  //       onPress={() => navigation.navigate('Signup')}
-  //     />  
-  
-  // <Text style={{marginTop:20}}>{state.Name}</Text>
-  //   </SignupForm>
-  );
-};
-
 const styles = StyleSheet.create({
-  container:{
-    backgroundColor:"rgba(203,248,227,1)",
-    resizeMode: 'cover',
-    flex: 1,
-  },
-  text:{
-    fontSize:wp('10%'),
-    marginLeft:wp('10%')
-  },
-  button:{
-    marginTop:wp('15%'),
-    width:wp('60%'),
-    fontSize:wp('20%'),
-    
-    textAlign:'center',
-    paddingTop:wp('3%'),
-    height:wp('10%'),
-    backgroundColor:'white',
-    color:'white',
-    borderRadius:5,
-    marginLeft:wp('10%')
-  }
-})
 
-
-export default FirstScreen;
+    loginContainer: {
+      width: '90%',
+      height:'40%',
+      maxHeight:'70%',
+      alignSelf: 'center',
+      backgroundColor: '#f2f2f2',
+      padding: widthPercentageToDP('5%'),
+      elevation: 10,
+      marginTop:widthPercentageToDP('30%'),
+      borderRadius:widthPercentageToDP('15%')
+    },
+    textInput: {
+        paddingLeft:10,
+        height: widthPercentageToDP('10%'),
+        width: widthPercentageToDP('70%'),
+        alignSelf:'center',
+        borderColor: '#4B0082',
+        borderRadius: widthPercentageToDP('5%'),
+        borderWidth: 1,
+        marginTop: 20,
+        backgroundColor: '#fff'
+      },
+    errorText: {
+        fontSize: widthPercentageToDP('3%'),
+        textAlign:'center',
+        marginTop:widthPercentageToDP('5%'),
+        color: 'red',
+      },
+  })
+export default LoginScreen
