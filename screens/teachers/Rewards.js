@@ -1,80 +1,32 @@
-import React from "react";
-import { View, FlatList, Alert } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, FlatList, Alert, ActivityIndicator, Text } from "react-native";
 import { ListItem, Icon } from "react-native-elements";
 import { LinearGradient } from "expo-linear-gradient";
+import { get, post_id } from "../../api/fetch";
 
 const Rewards = () => {
-  const students = [
-    {
-      studName: "Anand Rajaram",
-      studClass: "12 C",
-      key: "1",
-    },
-    {
-      studName: "Anand Rajaram",
-      studClass: "12 C",
-      key: "9",
-    },
-    {
-      studName: "Anand Rajaram",
-      studClass: "12 C",
-      key: "8",
-    },
-    {
-      studName: "Anand Rajaram",
-      studClass: "12 C",
-      key: "7",
-    },
-    {
-      studName: "Anand Rajaram",
-      studClass: "12 C",
-      key: "16",
-    },
-    {
-      studName: "Anand Rajaram",
-      studClass: "12 C",
-      key: "5",
-    },
-    {
-      studName: "Anand Rajaram",
-      studClass: "12 C",
-      key: "10",
-    },
-    {
-      studName: "Anand Rajaram",
-      studClass: "12 C",
-      key: "567",
-    },
-    {
-      studName: "Anirudh Lakhotia",
-      studClass: "12 C",
-      key: "2",
-    },
-    {
-      studName: "Sumuk Shashidhar",
-      studClass: "12 C",
-      key: "3",
-    },
-    {
-      studName: "Arunachala Amuda Murugan",
-      studClass: "12 C",
-      key: "4",
-    },
-  ];
+  const [students, setStudents] = useState([]);
 
-  const pressHandler = (item) => {
-    Alert.alert("Success", "You have added 2 points to " + item.studName, [
-      {
-        text: "Okay",
-      },
-    ]);
-    console.log(item.key);
+  useEffect(() => {
+    async function getData() {
+      let res = await get("/api/interaction/getStudents");
+      console.log(res.data);
+      setStudents(res.data);
+    }
+    getData();
+  }, []);
+
+  const pressHandler = async (item) => {
+    let res = await post_id("/api/interaction/addPoints", {
+      student_id: item._id,
+    });
+    console.log(res);
   };
 
   return (
     <View style={{ margin: 15 }}>
       <FlatList
-        data={students}
+        data={students.object}
         renderItem={({ item }) => (
           <ListItem
             key={item.key}
@@ -83,14 +35,15 @@ const Rewards = () => {
               start: { x: 1, y: 0 },
               end: { x: 0.2, y: 0 },
             }}
+            ViewComponent={LinearGradient}
             containerStyle={{ margin: 5, borderRadius: 35 }}
           >
             <ListItem.Content>
               <ListItem.Title style={{ color: "white", fontWeight: "bold" }}>
-                {item.studName}
+                {item.student_name}
               </ListItem.Title>
               <ListItem.Subtitle style={{ color: "white" }}>
-                {item.studClass}
+                {`${item.student_class} ${item.student_section}`}
               </ListItem.Subtitle>
             </ListItem.Content>
             <Icon
