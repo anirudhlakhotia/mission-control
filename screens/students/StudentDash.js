@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   View,
   Image,
@@ -9,45 +9,75 @@ import {
   FlatList,
   StatusBar,
 } from "react-native";
-import { heightPercentageToDP, widthPercentageToDP } from "react-native-responsive-screen";
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from "react-native-responsive-screen";
 import Icon from "react-native-vector-icons/SimpleLineIcons";
-// import { getToken } from "./../api/token";
+
+import { get } from "./../../api/fetch";
 import jwt_decode from "jwt-decode";
 import { LinearGradient } from "expo-linear-gradient";
 const StudentDash = ({ navigation }) => {
+  const [Assignments,setAssignments]=useState([])
   var token = navigation.getParam("data");
+  useEffect(() => {
+    async function getAssignments() {
+      let response = await get('/api/assignments/student/getAssignments')
+      console.log(response.data)
+      setAssignments(response.data.object)
+    }
+
+    getAssignments()
+  }, [])
+
+  for (var j in Assignments) {
+    var date = new Date(Assignments[j].dueDate * 1000);
+    var formattedTime =
+      date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
+    Assignments[j].formattedDate = formattedTime;
+  }
+var DATA1=[]
+var DATA2=[]
+for(var i in Assignments){
+  console.log(Assignments[i])
+  DATA1=DATA1.concat([Assignments[i].assignmentName])
+  DATA2=DATA2.concat([Assignments[i].formattedDate])
+}
+console.log(DATA1)
+
+  console.log(Assignments);
   const DATA = [
     {
       id: "1",
-      title: "First Assignment",
+      title: DATA1[1],
       color1: "#9795EF",
       color2: "#F9C5D1",
-      duedate:'Due Date 1'
+      duedate: DATA2[1]
     },
     {
       id: "2",
-      title: "Second Assignment",
+      title: DATA1[2],
       color1: "#fbc2eb",
       color2: "#a6c1ee",
-      duedate:'Due Date 2'
+      duedate: DATA2[2]
     },
     {
       id: "3",
-      title: "Third Assignment",
+      title: DATA1[3],
       color1: "#F39FDC",
       color2: "#9AB5E1",
-      duedate:'Due Date 3'
+      duedate: DATA2[3]
     },
   ];
-  
 
   var decoded = jwt_decode(token);
-  const goToShop=()=>{
-    navigation.navigate('ShopScreen')
-  }
-  return (
-    <View style={{position:'absolute',alignSelf:'center'}}>
+  const goToShop = () => {
+    navigation.navigate("ShopScreen");
+  };
 
+  return (
+    <View style={{ position: "absolute", alignSelf: "center" }}>
       <Text>{"\n"}</Text>
       <Text>{"\n"}</Text>
       <Text style={styles.greeting}>Hi, {decoded.name}</Text>
@@ -56,21 +86,20 @@ const StudentDash = ({ navigation }) => {
         You currently have 0 points
         <TouchableOpacity onPress={goToShop}>
           <View>
-        <Image
-            source={{ uri: "https://img.icons8.com/nolan/64/gift.png" }}
-            style={{
-              width: widthPercentageToDP("7%"),
-              height: heightPercentageToDP("7%"),
-              resizeMode:'contain',
-              // position: "absolute",
-              marginLeft:widthPercentageToDP('2%'),
-              marginTop:heightPercentageToDP('2%')
-              
-            }}
-          />
+            <Image
+              source={{ uri: "https://img.icons8.com/nolan/64/gift.png" }}
+              style={{
+                width: widthPercentageToDP("7%"),
+                height: heightPercentageToDP("7%"),
+                resizeMode: "contain",
+                // position: "absolute",
+                marginLeft: widthPercentageToDP("2%"),
+                marginTop: heightPercentageToDP("2%"),
+              }}
+            />
           </View>
-          </TouchableOpacity>
-          {/* <TouchableOpacity onPress={goToShop}>
+        </TouchableOpacity>
+        {/* <TouchableOpacity onPress={goToShop}>
               <View style={styles.imgrow}>
                 <Image
                   source={{
@@ -88,7 +117,7 @@ const StudentDash = ({ navigation }) => {
               </View>
           </TouchableOpacity> */}
       </Text>
-      
+
       <Text>{"\n"}</Text>
       <SafeAreaView style={styles.container}>
         <FlatList
@@ -103,9 +132,9 @@ const StudentDash = ({ navigation }) => {
                 <Text style={styles.title}>{item.title}</Text>
                 <Text style={styles.duedate}>{item.duedate}</Text>
               </TouchableOpacity>
-             </LinearGradient>
+            </LinearGradient>
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item._id}
         />
       </SafeAreaView>
     </View>
@@ -135,21 +164,21 @@ const styles = StyleSheet.create({
     borderRadius: widthPercentageToDP("5%"),
   },
   title: {
-    fontSize: widthPercentageToDP('2.5%'),
-    color:'#ffffff8f',
-    alignSelf:'center',
-    position:'relative',
-    marginTop:widthPercentageToDP('-5%'),
-    marginRight:widthPercentageToDP('15%')
+    fontSize: widthPercentageToDP("2.5%"),
+    color: "#ffffff8f",
+    alignSelf: "center",
+    position: "relative",
+    marginTop: widthPercentageToDP("-5%"),
+    marginRight: widthPercentageToDP("15%"),
   },
   duedate: {
-    fontSize: widthPercentageToDP('5%'),
-    fontWeight:'200',
-    color:'white',
-    alignSelf:'center',
-    position:'relative',
-    marginTop:widthPercentageToDP('2%'),
-    marginRight:widthPercentageToDP('15%')
+    fontSize: widthPercentageToDP("5%"),
+    fontWeight: "200",
+    color: "white",
+    alignSelf: "center",
+    position: "relative",
+    marginTop: widthPercentageToDP("2%"),
+    marginRight: widthPercentageToDP("15%"),
   },
   linearGradient: {
     width: widthPercentageToDP("70%"),

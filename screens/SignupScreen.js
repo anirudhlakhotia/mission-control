@@ -106,6 +106,7 @@ const SignupForm = ({
             formBody.push(encodedKey + "=" + encodedValue);
           }
           formBody = formBody.join("&");
+          console.log(formBody)
           post("/register", formBody)
           .then(async (res) => {
             console.log(res);

@@ -25,6 +25,10 @@ const LoginScreen = ({ navigation }) => {
       else{
         navigation.navigate("Home",{data:token})
       }
+
+    }
+    else{
+      errorMessage='Something went wrong.'
     }
   };
   const [errorMessage, setErrorMessage] = useState("");
@@ -59,14 +63,15 @@ const LoginScreen = ({ navigation }) => {
             .then(async (res) => {
               console.log(res.data);
               const response = await setToken(res.data.token);
-              if (response !== false && res.data.status == 200) {
+              if (response != false && res.data.status == 200) {
                 goToDash();
                 navigation.navigate("AdminDash");
               } else {
                 //means it failed
                 console.log("ERROR");
+                setErrorMessage("Something went wrong.");
               }
-              goToDash();
+              // goToDash();
             })
             .catch((res) => {
               if (res && res.error) {
@@ -114,7 +119,7 @@ const LoginScreen = ({ navigation }) => {
             <Text>{"\n"}</Text>
 
             {/* <Button  color="#9370DB" style={{borderRadius:widthPercentageToDP('30%')}}
-         onPress={handleSubmit}
+         onPress={handleSubmit}•••••••••••••••
          title="LOGIN"
          disabled={!isValid}
        /> */}
@@ -142,6 +147,10 @@ const LoginScreen = ({ navigation }) => {
                 LOGIN
               </Text>
             </TouchableOpacity>
+            <Text>{'\n'}</Text>
+            <Text>{'\n'}</Text>
+            <Text>{'\n'}</Text>
+            {!!errorMessage && <Text style={{ color: 'red',textAlign:'center' }}>{errorMessage}</Text>}
           </>
         )}
       </Formik>
