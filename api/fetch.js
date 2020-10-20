@@ -29,18 +29,6 @@ export const post = async (destination, body) => {
   return formattedResult;
 };
 
-export const post_id = async (destination, body) => {
-  const headers = await getHeaders();
-
-  const result = await fetch(`${API_URL}${destination}`, {
-    method: "POST",
-    headers,
-    body: body,
-  });
-  const formattedResult = await formatResult(result);
-  return formattedResult;
-};
-
 export const get = async (destination) => {
   const headers = await getHeaders();
 

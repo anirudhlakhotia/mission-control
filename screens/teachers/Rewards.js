@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, FlatList, Alert, ActivityIndicator, Text } from "react-native";
 import { ListItem, Icon } from "react-native-elements";
 import { LinearGradient } from "expo-linear-gradient";
-import { get, post_id, post } from "../../api/fetch";
+import { get, post } from "../../api/fetch";
 
 const Rewards = () => {
   const [students, setStudents] = useState([]);
@@ -29,6 +29,9 @@ const Rewards = () => {
     formBody = formBody.join("&");
     let res = await post("/api/interaction/addPoints", formBody);
     console.log(res);
+    Alert.alert("Success", "You gave " + item.student_name + " 2 points", [
+      { text: "Okay" },
+    ]);
   };
 
   return (
