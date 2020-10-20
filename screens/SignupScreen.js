@@ -16,10 +16,7 @@ import CustomInput from "../shared/CustomInput";
 import { Formik, Field } from "formik";
 import * as yup from "yup";
 const SignupForm = ({
-  buttonText,
-  onSubmit,
   children,
-  onAuthentication,
   navigation,
 }) => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -63,44 +60,14 @@ const SignupForm = ({
       .required("Section is required"),
   });
 
-  // const submit = () => {
-  //   onSubmit(email, password)
-  //     .then(async (res) => {
-  //       await setToken(res.auth_token);
-  //       onAuthentication();
-  //     })
-  //     .catch((res) => {
-  //       if (res && res.error) {
-  //         setErrorMessage(res.error);
-  //       }
-
-  //       setErrorMessage('Something went wrong.');
-  //     });
-  // };
-
-  const submit = () => {
-    if (password == confpassword) {
-      console.log("Yes");
-      const user = {
-        name: name,
-        username: email,
-        password: password,
-        role: type === "S" ? "student" : "teacher",
-        classattend: parseInt(Class),
-        section: section,
-      };
-      console.log(user);
-      post("/register", user).then(async (res) => {
-        console.log(res);
-      });
-    } else {
-      console.log("No");
-    }
-  };
   return (
+    
     <ScrollView contentContainerStyle={styles.container}>
+      
       <Formik
+      
         validationSchema={signUpValidationSchema}
+        
         initialValues={{
           name: "",
           email: "",
@@ -112,13 +79,47 @@ const SignupForm = ({
           role: type === "S" ? "student" : "teacher",
         }}
         onSubmit={(values) => {
-          values.classAttend = parseInt(values.classAttend);
-          values.phoneNumber = parseInt(values.phoneNumber);
           values.role = type === "S" ? "student" : "teacher";
-          console.log(values);
+          values.classAttend =parseInt(values.classAttend)
+          values.phoneNumber=parseInt(values.phoneNumber)
+          console.log(values)
+          var params = {
+
+            name:values.name,
+            username: values.email,
+            password: values.password,
+            phoneNumbervalues: parseInt(values.phoneNumber),
+            classAttend: parseInt(values.classAttend),
+            section:values.section,
+            role:values.role
+
+          };
+          var formBody = [];
+          for (var property in params) {
+            if (typeof(params[property])=='int'){
+              var encodedValue = parseInt(encodeURIComponent(params[property]));
+            }
+            else{
+              var encodedValue = encodeURIComponent(params[property]);
+            }
+            var encodedKey = encodeURIComponent(property);
+            formBody.push(encodedKey + "=" + encodedValue);
+          }
+          formBody = formBody.join("&");
+          post("/register", formBody)
+          .then(async (res) => {
+            console.log(res);
+            if(res.status ==200){
+              navigation.navigate('LoginScreen')
+            }
+            else{
+              setErrorMessage("Something went wrong.");
+            }
+          })
         }}
       >
         {({ handleSubmit, isValid }) => (
+          
           <>
             <Field
               component={CustomInput}
@@ -176,7 +177,7 @@ const SignupForm = ({
               style={{ width: widthPercentageToDP("50%") }}
               buttonColor="#4B0082"
               borderColor="#4B0082"
-              textColor="	#4B0082"
+              textColor="#4B0082"
               options={[
                 { label: "Teacher", value: "T" }, //images.feminino = require('./path_to/assets/img/feminino.png')
                 { label: "Student", value: "S" }, //images.masculino = require('./path_to/assets/img/masculino.png')
@@ -212,9 +213,8 @@ const SignupForm = ({
         )}
       </Formik>
       <Text>{"\n"}</Text>
+      {!!errorMessage && <Text style={{ color: 'red' }}>{errorMessage}</Text>}
       <Text>{"\n"}</Text>
-
-      {errorMessage ? <Text>{errorMessage}</Text> : null}
       {children}
     </ScrollView>
   );
@@ -242,11 +242,12 @@ const styles = StyleSheet.create({
   },
 });
 const SignupScreen = ({ navigation }) => {
+  
   return (
-    <SignupForm buttonText="Sign Up">
+    <SignupForm buttonText="Sign Up" navigation={navigation}>
       <Text
-        style={{ color: "blue" }}
-        onPress={() => navigation.navigate("LoginScreen")}
+        style={{ color: "blue", marginBottom: widthPercentageToDP('10%') }}
+        onPress={() => navigation.navigate('LoginScreen')}
       >
         Already have an account?
       </Text>

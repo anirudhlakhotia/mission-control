@@ -37,7 +37,14 @@ class ShopScreen extends Component {
             Submission Date, or The Fantastic Dark Mode
           </Text>
           <Text>{"\n"}</Text>
-
+          <Text>{"\n"}</Text>
+          <Text>{"\n"}</Text>
+          <Text>{"\n"}</Text>
+          <Text>{"\n"}</Text>
+          <Text>{"\n"}</Text>
+          <Text>{"\n"}</Text>
+          <Text>{"\n"}</Text>
+          <Text>{"\n"}</Text>
           <TouchableOpacity style={styles.touchableopacity}>
             <LinearGradient
               colors={["#000000", "#434343"]}
@@ -64,6 +71,7 @@ class ShopScreen extends Component {
                     fontWeight: "100",
                     fontFamily: "sans-serif",
                     color: "white",
+                    fontWeight:'bold'
                   }}
                 >
                   Dark Mode
@@ -77,14 +85,17 @@ class ShopScreen extends Component {
                     color: "white",
                   }}
                 >
-                  1200
+                  500
                 </Text>
               </View>
             </LinearGradient>
           </TouchableOpacity>
           <Text>{"\n"}</Text>
           <Text>{"\n"}</Text>
-
+          <Text>{"\n"}</Text>
+          <Text>{"\n"}</Text>
+          <Text>{"\n"}</Text>
+          <Text>{"\n"}</Text>
           <TouchableOpacity style={styles.touchableopacity1}>
             <LinearGradient
               colors={["#FF8008", "#FFC837"]}
@@ -111,6 +122,7 @@ class ShopScreen extends Component {
                     fontWeight: "100",
                     fontFamily: "sans-serif",
                     color: "white",
+                    fontWeight:'bold'
                   }}
                 >
                   {" "}
@@ -125,7 +137,7 @@ class ShopScreen extends Component {
                     color: "white",
                   }}
                 >
-                  200
+                  20
                 </Text>
               </View>
             </LinearGradient>
@@ -160,6 +172,7 @@ class ShopScreen extends Component {
                     fontWeight: "100",
                     fontFamily: "sans-serif",
                     color: "white",
+                    fontWeight:'bold'
                   }}
                 >
                   {" "}
@@ -174,23 +187,11 @@ class ShopScreen extends Component {
                     color: "white",
                   }}
                 >
-                  500
+                  50
                 </Text>
               </View>
             </LinearGradient>
           </TouchableOpacity>
-
-          <Image
-            source={{ uri: "https://img.icons8.com/nolan/48/prize.png" }}
-            style={{
-              width: wp("20%"),
-              height: hp("20%"),
-              resizeMode: "center",
-              marginBottom: wp("10%"),
-              position: "absolute",
-              marginTop: -wp("6%"),
-            }}
-          />
         </ScrollView>
       </View>
     );
@@ -221,6 +222,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     position: "absolute",
   },
+
   touchableopacity1: {
     borderRadius: wp("5%"),
     width: wp("90%"),

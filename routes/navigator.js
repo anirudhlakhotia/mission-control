@@ -11,6 +11,12 @@ import StudentDash from "../screens/students/StudentDash";
 import ShopScreen from "../screens/students/ShopScreen";
 
 const screens = {
+  StudentDash: {
+    screen: StudentDash,
+    navigationOptions: {
+      title: "Student Dashboard",
+    },
+  },
   Home: {
     screen: Home,
     navigationOptions: {
@@ -53,16 +59,11 @@ const screens = {
       title: "Rewards Shop",
     },
   },
-  StudentDash: {
-    screen: StudentDash,
-    navigationOptions: {
-      title: "Student Dashboard",
-    },
-  },
+  
 };
 
 const Navigator = createStackNavigator(screens, {
-  initialRouteName: "Home",
+  initialRouteName: "First",
 });
 
 export default createAppContainer(Navigator);

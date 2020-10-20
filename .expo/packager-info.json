@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
-  "webpackServerPort": null
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 86090,
+  "expoServerNgrokUrl": "https://cn-itc.anirudhlakhotia.kappathon.exp.direct",
+  "packagerNgrokUrl": "https://packager.cn-itc.anirudhlakhotia.kappathon.exp.direct",
+  "ngrokPid": 87038,
+  "webpackServerPort": 19006
 }

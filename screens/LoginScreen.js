@@ -11,14 +11,20 @@ import { Formik } from "formik";
 import { widthPercentageToDP } from "react-native-responsive-screen";
 import { post } from "../api/fetch";
 import { setToken, getToken } from "../api/token";
+import jwt_decode from "jwt-decode";
 const LoginScreen = ({ navigation }) => {
   const goToDash = async () => {
     var token = await getToken();
+    var decoded = jwt_decode(token);
     if (token != "undefined") {
       // means that it succeeded
       console.log(token);
-      console.log(typeof token);
-      navigation.navigate("StudentDash", { data: token });
+      if(decoded ['role']==='student'){
+      navigation.navigate("StudentDash",{data:token});
+      }
+      else{
+        navigation.navigate("Home",{data:token})
+      }
     }
   };
   const [errorMessage, setErrorMessage] = useState("");
