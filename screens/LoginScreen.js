@@ -13,13 +13,12 @@ import { post } from "../api/fetch";
 import { setToken, getToken } from "../api/token";
 const LoginScreen = ({ navigation }) => {
   const goToDash = async () => {
-    console.log("GoToDash");
     var token = await getToken();
     if (token != "undefined") {
       // means that it succeeded
       console.log(token);
       console.log(typeof token);
-      navigation.navigate("StudentDash");
+      navigation.navigate("StudentDash", { data: token });
     }
   };
   const [errorMessage, setErrorMessage] = useState("");
@@ -122,6 +121,7 @@ const LoginScreen = ({ navigation }) => {
                 width: widthPercentageToDP("70%"),
                 borderRadius: widthPercentageToDP("5%"),
                 overflow: "hidden",
+                // marginBottom:widthPercentageToDP('10%'),
                 alignSelf: "center",
               }}
             >
