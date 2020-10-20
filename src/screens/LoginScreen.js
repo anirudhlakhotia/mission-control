@@ -17,16 +17,13 @@ import { post } from "./../api/fetch";
 import { setToken, getToken } from "./../api/token";
 const LoginScreen = ({ navigation }) => {
   const goToDash = async () => {
-    console.log("GoToDash");
     var token = await getToken();
-    if(token != "undefined") {
-        // means that it succeeded
-        console.log(token);
-        console.log(typeof(token));
-        navigation.navigate("StudentDash");
+    if (token != "undefined") {
+      // means that it succeeded
+      console.log(token);
+      console.log(typeof token);
+      navigation.navigate("StudentDash",{data:token});
     }
-    
-    
   };
   const [errorMessage, setErrorMessage] = useState("");
   const loginValidationSchema = yup.object().shape({
@@ -60,7 +57,7 @@ const LoginScreen = ({ navigation }) => {
             .then(async (res) => {
               console.log(res.data);
               const response = await setToken(res.data.token);
-              if (response !== false  && res.data.status==200) {
+              if (response !== false && res.data.status == 200) {
                 goToDash();
                 navigation.navigate("AdminDash");
               } else {
@@ -128,6 +125,7 @@ const LoginScreen = ({ navigation }) => {
                 width: widthPercentageToDP("70%"),
                 borderRadius: widthPercentageToDP("5%"),
                 overflow: "hidden",
+                // marginBottom:widthPercentageToDP('10%'),
                 alignSelf: "center",
               }}
             >
