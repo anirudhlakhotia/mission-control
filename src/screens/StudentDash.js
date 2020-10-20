@@ -55,19 +55,38 @@ const StudentDash = ({ navigation }) => {
       <Text style={{ textAlign: "center", color: "#C0C0C0" }}>
         You currently have 0 points
         <TouchableOpacity onPress={goToShop}>
+          <View>
         <Image
-            source={{ uri: "https://www.flaticon.com/svg/static/icons/svg/1077/1077290.svg" }}
+            source={{ uri: "https://img.icons8.com/nolan/64/gift.png" }}
             style={{
-              width: widthPercentageToDP("5%"),
-              height: heightPercentageToDP("5%"),
+              width: widthPercentageToDP("7%"),
+              height: heightPercentageToDP("7%"),
               resizeMode:'contain',
-              position: "absolute",
+              // position: "absolute",
               marginLeft:widthPercentageToDP('2%'),
-              marginTop:heightPercentageToDP('-3%')
+              marginTop:heightPercentageToDP('2%')
               
             }}
           />
+          </View>
           </TouchableOpacity>
+          {/* <TouchableOpacity onPress={goToShop}>
+              <View style={styles.imgrow}>
+                <Image
+                  source={{
+                    uri:
+                      "https://img.icons8.com/nolan/64/gift.png",
+                  }}
+                  style={{
+                    width: widthPercentageToDP("6%"),
+                    height: heightPercentageToDP("6%"),
+                    resizeMode:'contain',
+                    marginLeft: widthPercentageToDP("5%"),
+                  }}
+                />
+             
+              </View>
+          </TouchableOpacity> */}
       </Text>
       
       <Text>{"\n"}</Text>
@@ -137,6 +156,10 @@ const styles = StyleSheet.create({
     marginTop: widthPercentageToDP("3%"),
     alignSelf: "center",
     borderRadius: widthPercentageToDP("5%"),
+  },
+  imgrow: {
+    flex: 1,
+    flexDirection: "row",
   },
 });
 export default StudentDash;
