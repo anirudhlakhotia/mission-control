@@ -3,43 +3,28 @@ import { StyleSheet, TextInput, View, Text, Alert } from "react-native";
 import { Button } from "react-native-elements";
 import { Formik } from "formik";
 import { get, post } from "../../api/fetch";
-import CalendarPicker from "react-native-calendar-picker";
 import * as yup from "yup";
 
 const AssignmentSchema = yup.object({
-  assignmentName: yup.string().required().min(5),
-  assignmentLink: yup.string().required().min(5),
+  correctionLink: yup.string().required().min(5),
+  remarks: yup.string().required().min(5),
 });
 
-const CreateAssignment = () => {
-  var today = new Date();
-  var dd = String(today.getDate()).padStart(2, "0");
-  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-  var yyyy = today.getFullYear();
-  today = yyyy + "-" + mm + "-" + dd;
-
-  const [date, setDate] = useState("2020-01-01");
-
-  const changeDate = (dateCal) => {
-    var dateobj = new Date(dateCal.toString());
-    setDate(dateobj.getTime());
-    console.log(typeof date);
-  };
-
+const CreateAssignment = ({ studentID, assignmentID }) => {
   return (
     <View>
       <Formik
         initialValues={{
-          dueDate: "",
-          assignmentName: "",
-          assignmentLink: "",
+          correctionLink: "",
+          remarks: "",
         }}
         validationSchema={AssignmentSchema}
         onSubmit={async (values) => {
           var params = {
-            dueDate: date,
-            assignmentName: values.assignmentName,
-            assignmentLink: values.assignmentLink,
+            studentID,
+            assignmentID,
+            correctionLink: values.correctionLink,
+            remarks: values.remarks,
           };
           var formBody = [];
           for (var property in params) {
@@ -63,34 +48,26 @@ const CreateAssignment = () => {
             <TextInput
               style={styles.input}
               placeholder="Assignment Name"
-              onChangeText={props.handleChange("assignmentName")}
-              value={props.values.assignmentName}
-              onBlur={props.handleBlur("assignmentName")}
+              onChangeText={props.handleChange("correctionLink")}
+              value={props.values.correctionLink}
+              onBlur={props.handleBlur("correctionLink")}
             />
 
             <Text style={styles.errorText}>
-              {props.touched.assignmentName && props.errors.assignmentName}
+              {props.touched.correctionLink && props.errors.correctionLink}
             </Text>
 
             <TextInput
               style={styles.input}
               placeholder="Assignment Link"
-              onChangeText={props.handleChange("assignmentLink")}
-              value={props.values.assignmentLink}
-              onBlur={props.handleBlur("assignmentLink")}
+              onChangeText={props.handleChange("remarks")}
+              value={props.values.remarks}
+              onBlur={props.handleBlur("remarks")}
             />
 
             <Text style={styles.errorText}>
-              {props.touched.assignmentLink && props.errors.assignmentLink}
+              {props.touched.remarks && props.errors.remarks}
             </Text>
-
-            <Text
-              style={{ alignSelf: "center", fontSize: 18, marginBottom: 20 }}
-            >
-              Select Due Date
-            </Text>
-
-            <CalendarPicker onDateChange={changeDate} />
 
             <Button
               title="Submit"
