@@ -1,1 +1,0 @@
-{"ast":null,"code":"export var API_URL = 'https://fake.com';","map":{"version":3,"sources":["/home/anirudh/Desktop/KAppAthon/secrets.js"],"names":["API_URL"],"mappings":"AAAA,OAAO,IAAMA,OAAO,GAAG,kBAAhB","sourcesContent":["export const API_URL = 'https://fake.com'\n// http://52.237.113.229:3000"]},"metadata":{},"sourceType":"module"}
