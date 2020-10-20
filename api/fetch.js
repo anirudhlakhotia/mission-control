@@ -35,7 +35,7 @@ export const post_id = async (destination, body) => {
   const result = await fetch(`${API_URL}${destination}`, {
     method: "POST",
     headers,
-    body: JSON.stringify(body),
+    body: body,
   });
   const formattedResult = await formatResult(result);
   return formattedResult;

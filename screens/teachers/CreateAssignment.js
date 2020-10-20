@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { StyleSheet, Button, TextInput, View, Text } from "react-native";
-import DatePicker from "react-native-datepicker";
 import { Formik } from "formik";
 
 const CreateAssignment = () => {
