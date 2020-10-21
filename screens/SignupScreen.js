@@ -50,7 +50,7 @@ const SignupForm = ({
       .string()
       .oneOf([yup.ref("password")], "Passwords do not match")
       .required("Confirm password is required"),
-    classAttend: yup
+    grade: yup
       .string()
       .max(2, ({ max }) => `Class must have ${max} digits `)
       .required("Class is required"),
@@ -74,13 +74,13 @@ const SignupForm = ({
           phoneNumber: "",
           password: "",
           confirmPassword: "",
-          classAttend: "",
+          grade: "",
           section: "",
           role: type === "S" ? "student" : "teacher",
         }}
         onSubmit={(values) => {
           values.role = type === "S" ? "student" : "teacher";
-          values.classAttend =parseInt(values.classAttend)
+          values.grade =parseInt(values.grade)
           values.phoneNumber=parseInt(values.phoneNumber)
           console.log(values)
           var params = {
@@ -89,7 +89,7 @@ const SignupForm = ({
             username: values.email,
             password: values.password,
             phoneNumbervalues: parseInt(values.phoneNumber),
-            classAttend: parseInt(values.classAttend),
+            grade: parseInt(values.grade),
             section:values.section,
             role:values.role
 
@@ -155,7 +155,7 @@ const SignupForm = ({
             />
             <Field
               component={CustomInput}
-              name="classAttend"
+              name="grade"
               placeholder="Class"
               maxLength={2}
               keyboardType="numeric"

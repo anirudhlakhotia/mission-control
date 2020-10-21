@@ -13,12 +13,13 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { LinearGradient } from "expo-linear-gradient";
-class ShopScreen extends Component {
-  state = {
-    count: 0,
-  };
-  render() {
+
+const ShopScreen=({navigation})=>{
+    const Assignments=navigation.getParam("other"); 
+    const token=navigation.getParam("data"); 
     const screenHeight = Dimensions.get("window").height;
+    var id=0
+   
     return (
       <View
         style={{
@@ -96,7 +97,8 @@ class ShopScreen extends Component {
           <Text>{"\n"}</Text>
           <Text>{"\n"}</Text>
           <Text>{"\n"}</Text>
-          <TouchableOpacity style={styles.touchableopacity1}>
+          <TouchableOpacity  onPress={ () => {
+        navigation.navigate('showAllAssignments',{data:token,id:1,other:Assignments})}} style={styles.touchableopacity1}>
             <LinearGradient
               colors={["#FF8008", "#FFC837"]}
               start={[0.1, 0.1]}
@@ -146,7 +148,8 @@ class ShopScreen extends Component {
           <Text>{"\n"}</Text>
           <Text>{"\n"}</Text>
 
-          <TouchableOpacity style={styles.touchableopacity2}>
+          <TouchableOpacity onPress={ () => {
+        navigation.navigate('showAllAssignments',{data:token,id:2,other:Assignments})}} style={styles.touchableopacity2}>
             <LinearGradient
               colors={["#FFE000", "#799F0C"]}
               start={[0.1, 0.1]}
@@ -195,8 +198,9 @@ class ShopScreen extends Component {
         </ScrollView>
       </View>
     );
-  }
+
 }
+
 
 const styles = StyleSheet.create({
   heading: {

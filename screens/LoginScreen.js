@@ -63,11 +63,11 @@ const LoginScreen = ({ navigation }) => {
             .then(async (res) => {
               console.log(res.data);
               const response = await setToken(res.data.token);
-              if (response != false && res.data.status == 200) {
+              if (response != false && res.status == 200) {
                 goToDash();
-                navigation.navigate("AdminDash");
               } else {
                 //means it failed
+                console.log(res.status )
                 console.log("ERROR");
                 setErrorMessage("Something went wrong.");
               }

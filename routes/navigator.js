@@ -9,7 +9,8 @@ import FirstScreen from "../screens/FirstScreen";
 import LoginScreen from "../screens/LoginScreen";
 import StudentDash from "../screens/students/StudentDash";
 import ShopScreen from "../screens/students/ShopScreen";
-
+import SubmitAssignment from "./../screens/students/SumbitAssignment"
+import showAllAssignments from './../screens/students/showAllAssignments'
 const screens = {
   StudentDash: {
     screen: StudentDash,
@@ -23,6 +24,21 @@ const screens = {
       title: "Teacher Dashboard",
     },
   },
+
+SubmitAssignment: {
+  screen: SubmitAssignment,
+  navigationOptions: {
+    title: "Submit Assignment",
+  },
+  
+},
+showAllAssignments: {
+  screen: showAllAssignments,
+  navigationOptions: {
+    title: "View Assignments",
+  },
+  
+},
   Rewards: {
     screen: Rewards,
     navigationOptions: {
@@ -62,7 +78,7 @@ const screens = {
 };
 
 const Navigator = createStackNavigator(screens, {
-  initialRouteName: "Home",
+  initialRouteName: "First",
 });
 
 export default createAppContainer(Navigator);

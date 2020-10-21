@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#9370DB",
     color: "white",
     borderRadius: wp("20%"),
-    marginLeft: wp("10%"),
+    marginLeft: wp("0%"),
   },
 });
 
