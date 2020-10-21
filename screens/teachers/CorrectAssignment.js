@@ -6,8 +6,8 @@ import { get, post } from "../../api/fetch";
 import * as yup from "yup";
 
 const AssignmentSchema = yup.object({
-  correctionLink: yup.string().required().min(5),
-  remarks: yup.string().required().min(5),
+  correctionLink: yup.string().required("Correction Link is required").min(5),
+  remarks: yup.string().required("Remarks are required").min(5),
 });
 
 const CorrectAssignment = ({ studentID, assignmentID }) => {

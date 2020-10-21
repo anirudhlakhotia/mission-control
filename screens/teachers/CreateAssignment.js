@@ -7,14 +7,18 @@ import { Calendar } from "react-native-calendars";
 import * as yup from "yup";
 
 const AssignmentSchema = yup.object({
-  assignmentName: yup.string().required().min(5),
-  assignmentLink: yup.string().required().min(5),
+  assignmentName: yup.string().required("Assignment Name is required").min(5),
+  assignmentLink: yup.string().required("Assignment Link is required").min(5),
 });
 
 const CreateAssignment = ({ closeModal }) => {
-  const [date, setDate] = useState("2020-01-01");
+  var ts = Math.round(new Date().getTime() / 1000);
+  const [date, setDate] = useState(ts);
+  const [calDate, setCalDate] = useState("2020-01-02");
 
-  const changeDate = (dateCal) => {
+  const changeCalDate = (dateCal) => {
+    console.log(dateCal);
+    setCalDate(dateCal.dateString);
     setDate(dateCal.timestamp / 1000);
   };
 
@@ -29,8 +33,7 @@ const CreateAssignment = ({ closeModal }) => {
         onSubmit={async (values) => {
           closeModal();
           var params = {
-            studentID: studentID,
-            assignmentID: assignmentID,
+            dueDate: date,
             assignmentName: values.assignmentName,
             assignmentLink: values.assignmentLink,
           };
@@ -83,7 +86,11 @@ const CreateAssignment = ({ closeModal }) => {
               Select Due Date
             </Text>
 
-            <Calendar minDate={Date()} onDayPress={changeDate} />
+            <Calendar
+              minDate={Date()}
+              onDayPress={changeCalDate}
+              markedDates={{ [calDate]: { selected: true } }}
+            />
 
             <Button
               title="Submit"
