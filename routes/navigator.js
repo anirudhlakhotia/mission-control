@@ -1,21 +1,37 @@
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
+
 import Home from "../screens/teachers/Home";
 import Rewards from "../screens/teachers/Rewards";
 import Assignments from "../screens/teachers/Assignments";
+import AssignmentDetails from "../screens/teachers/AssignmentDetails";
 
 import SignupScreen from "../screens/SignupScreen";
 import FirstScreen from "../screens/FirstScreen";
 import LoginScreen from "../screens/LoginScreen";
 import StudentDash from "../screens/students/StudentDash";
 import ShopScreen from "../screens/students/ShopScreen";
-import SubmitAssignment from "./../screens/students/SumbitAssignment"
-import showAllAssignments from './../screens/students/showAllAssignments'
+import SubmitAssignment from "./../screens/students/SumbitAssignment";
+import showAllAssignments from "./../screens/students/showAllAssignments";
+
 const screens = {
   StudentDash: {
     screen: StudentDash,
     navigationOptions: {
       title: "Student Dashboard",
+    },
+  },
+
+  SubmitAssignment: {
+    screen: SubmitAssignment,
+    navigationOptions: {
+      title: "Submit Assignment",
+    },
+  },
+  showAllAssignments: {
+    screen: showAllAssignments,
+    navigationOptions: {
+      title: "View Assignments",
     },
   },
   Home: {
@@ -24,21 +40,6 @@ const screens = {
       title: "Teacher Dashboard",
     },
   },
-
-SubmitAssignment: {
-  screen: SubmitAssignment,
-  navigationOptions: {
-    title: "Submit Assignment",
-  },
-  
-},
-showAllAssignments: {
-  screen: showAllAssignments,
-  navigationOptions: {
-    title: "View Assignments",
-  },
-  
-},
   Rewards: {
     screen: Rewards,
     navigationOptions: {
@@ -49,6 +50,12 @@ showAllAssignments: {
     screen: Assignments,
     navigationOptions: {
       title: "Assignments",
+    },
+  },
+  AssignmentDetails: {
+    screen: AssignmentDetails,
+    navigationOptions: {
+      title: "Assignment Details",
     },
   },
   First: {

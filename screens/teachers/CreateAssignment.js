@@ -12,25 +12,16 @@ const AssignmentSchema = yup.object({
 });
 
 const CreateAssignment = () => {
-  var today = new Date();
-  var dd = String(today.getDate()).padStart(2, "0");
-  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-  var yyyy = today.getFullYear();
-  today = yyyy + "-" + mm + "-" + dd;
-
   const [date, setDate] = useState("2020-01-01");
 
   const changeDate = (dateCal) => {
-    var dateobj = new Date(dateCal.toString());
-    setDate(dateobj.getTime());
-    console.log(typeof date);
+    setDate(dateCal.timestamp / 1000);
   };
 
   return (
     <View>
       <Formik
         initialValues={{
-          dueDate: "",
           assignmentName: "",
           assignmentLink: "",
         }}

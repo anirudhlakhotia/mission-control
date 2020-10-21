@@ -145,17 +145,16 @@ navigation.navigate("SubmitAssignment",{id:id})
               start={[0.1, 0.1]}
               style={styles.linearGradient}
             >
-  <TouchableOpacity onPress={()=>{
+  {/* <TouchableOpacity onPress={()=>{
     console.log(item)
-    submitAssignment(item.id)}}>
-              <TouchableOpacity style={styles.item} >
+    submitAssignment(item.id)}}> */}
+              <TouchableOpacity disabled={true} style={styles.item} >
 
               {/* <MaterialCommunityIcons name="file-send" size={widthPercentageToDP('5%')} style={{alignSelf:'flex-end',marginRight:widthPercentageToDP('5%')}} color="#ffffffbf" onPress={console.log(item)}/> */}
-
-                <Text style={styles.title}>{item.title}</Text>
+              </TouchableOpacity>
+              <Text style={styles.title}>{item.title}</Text>
                 <Text style={styles.duedate}>{item.duedate}</Text>
-              </TouchableOpacity>
-              </TouchableOpacity>
+              {/* </TouchableOpacity> */}
             </LinearGradient>
           )}
           keyExtractor={(item) => item._id}
@@ -190,6 +189,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     borderWidth: 0,
     marginBottom:widthPercentageToDP('2%'),
+    opacity:0
+ 
   },
   title: {
     fontSize: widthPercentageToDP("4%"),
@@ -204,14 +205,15 @@ const styles = StyleSheet.create({
     color: "white",
     alignSelf: "center",
     position: "relative",
-    marginTop: widthPercentageToDP("2%"),
+    // marginTop: widthPercentageToDP("2%"),
   },
   linearGradient: {
     width: widthPercentageToDP("70%"),
     marginTop: widthPercentageToDP("3%"),
     alignItems: "center",
     borderRadius: widthPercentageToDP("5%"),
-    textAlign: "center"
+    textAlign: "center",
+    padding:widthPercentageToDP('3%')
   },
   imgrow: {
     flex: 1,
