@@ -7,6 +7,7 @@ import { get } from "../../api/fetch";
 
 const Assignments = ({ navigation }) => {
   const [assignments, setAssignments] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     async function getData() {
@@ -17,7 +18,10 @@ const Assignments = ({ navigation }) => {
     getData();
   }, []);
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   return (
     <View>
       <Modal visible={modalOpen} animationType="slide">
@@ -28,7 +32,7 @@ const Assignments = ({ navigation }) => {
             style={{ ...styles.modalToggle, ...styles.modalClose }}
             onPress={() => setModalOpen(false)}
           />
-          <CreateAssignment />
+          <CreateAssignment closeModal={closeModal} />
         </View>
       </Modal>
 
@@ -49,6 +53,12 @@ const Assignments = ({ navigation }) => {
               marginHorizontal: 15,
               marginVertical: 5,
             }}
+            onPress={() =>
+              navigation.navigate("AssignmentDetails", {
+                student_based_data: item.student_based_data,
+                id: item._id,
+              })
+            }
             linearGradientProps={{
               colors: ["#2F80ED", "#56CCF2"],
               start: { x: 1, y: 0 },
@@ -60,17 +70,21 @@ const Assignments = ({ navigation }) => {
                 {item.assignment_data.assignmentName}
               </ListItem.Title>
               <ListItem.Subtitle style={{ color: "white" }}>
-                Due Date: {item.assignment_data.dueDate}
+                Students Submitted:{" "}
+                {item.student_based_data.submittedStudents.length}
+                {"\n"}
+                Students Extended:{" "}
+                {item.student_based_data.extensionPurchasedBy.length}
               </ListItem.Subtitle>
             </ListItem.Content>
             <ListItem.Chevron
               color="white"
               size={36}
               onPress={() =>
-                navigation.navigate(
-                  "AssignmentDetails",
-                  item.student_based_data
-                )
+                navigation.navigate("AssignmentDetails", {
+                  student_based_data: item.student_based_data,
+                  id: item._id,
+                })
               }
             />
           </ListItem>
@@ -88,6 +102,7 @@ const styles = StyleSheet.create({
   modalToggle: {
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 15,
     marginBottom: 10,
     borderWidth: 1,
     borderColor: "#f2f2f2",
