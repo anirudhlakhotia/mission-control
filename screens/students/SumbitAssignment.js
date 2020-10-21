@@ -50,9 +50,16 @@ const SubmitAssignment =({navigation})=> {
                 formBody
               );
               console.log(res);
-              Alert.alert("Success", "You submitted the assignment", [
-                { text: "Okay" },
-              ]);
+              if(res.status==200){
+                Alert.alert("Success!", 'You uploaded the assignment successfully', [
+                  { text: "Okay" },
+                ]);
+              }
+              else{
+                Alert.alert("Sorry", "Unable to upload the assignment.", [
+                  { text: "Okay" },
+                ]);
+              }
             }}
           >
             {(props) => (
@@ -92,37 +99,7 @@ const SubmitAssignment =({navigation})=> {
               </View>
             )}
           </Formik>
-        {/* <TouchableOpacity style={styles.touchableopacity2}>
-           
-              <View style={styles.imgrow}>
-                <Image
-                  source={{
-                    uri:
-                      "https://img.icons8.com/cotton/64/000000/upload-to-cloud.png",
-                  }}
-                  style={{
-                    width: wp("5%"),
-                    height: hp("5%"),
-                    resizeMode: "center",
-                    flexDirection: "row",
-                    marginLeft: wp("5%"),
-                  }}
-                />
-                <Text
-                  style={{
-                    alignSelf: "center",
-                    fontWeight: "100",
-                    fontFamily: "sans-serif",
-                    color: "white",
-                    fontSize:widthPercentageToDP('4%')
-                  }}
-                >
-                  {" "}
-                 CLICK TO SUBMIT
-                </Text>
-              </View>
-      
-          </TouchableOpacity> */}
+     
           </View>
          ) 
   

@@ -21,6 +21,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 const StudentDash = ({ navigation }) => {
   const [Assignments, setAssignments] = useState([]);
   const [Points, setPoints] = useState(0);
+  const [multiplier, setMultiplier] = useState(0);
   var token = navigation.getParam("data");
   useEffect(() => {
     async function getAssignments() {
@@ -43,6 +44,7 @@ const StudentDash = ({ navigation }) => {
       let response = await get("/api/student/getPoints");
       console.log(response.data);
       setPoints(response.data.points);
+      setMultiplier(response.data.multiplier)
     }
 
     getPoints();
@@ -101,6 +103,10 @@ const StudentDash = ({ navigation }) => {
       <Text style={{ textAlign: "center", color: "#C0C0C0" }}>
         You currently have {Points} points
       </Text>
+  {!!multiplier && <Text style={{ color: '#C0C0C0',textAlign: "center", }}>Interact everyday to keep your streak and get 2X points</Text>}
+  {!multiplier && <Text style={{ color: '#C0C0C0',textAlign: "center", }}>Start a streak by interacting now!</Text>}
+  {!multiplier && <Text style={{ color: '#9370DB',textAlign: "center", }}> Gain upto 2X points by interacting daily</Text>}
+ 
      <Button
                 icon={
                   <Icon

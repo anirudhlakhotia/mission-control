@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import { Button } from "react-native-elements";
 import * as yup from "yup";
 import { Formik } from "formik";
 import { widthPercentageToDP } from "react-native-responsive-screen";
@@ -68,10 +69,8 @@ const LoginScreen = ({ navigation }) => {
               } else {
                 //means it failed
                 console.log(res.status )
-                console.log("ERROR");
                 setErrorMessage("Something went wrong.");
               }
-              // goToDash();
             })
             .catch((res) => {
               if (res && res.error) {
@@ -123,7 +122,7 @@ const LoginScreen = ({ navigation }) => {
          title="LOGIN"
          disabled={!isValid}
        /> */}
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={handleSubmit}
               disabled={!isValid}
               style={{
@@ -146,7 +145,10 @@ const LoginScreen = ({ navigation }) => {
               >
                 LOGIN
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <Button title="LOGIN"  onPress={handleSubmit}
+              disabled={!isValid}  buttonStyle={{ backgroundColor:"#9370DB",textAlign:"center",borderRadius:widthPercentageToDP('15%')}}/>
+            
             <Text>{'\n'}</Text>
             <Text>{'\n'}</Text>
             <Text>{'\n'}</Text>
@@ -166,7 +168,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     backgroundColor: "#f2f2f2",
     padding: widthPercentageToDP("5%"),
-    elevation: 10,
     marginTop: widthPercentageToDP("30%"),
     borderRadius: widthPercentageToDP("15%"),
   },

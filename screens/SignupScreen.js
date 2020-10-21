@@ -5,7 +5,9 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Alert
 } from "react-native";
+import { Button } from "react-native-elements";
 import SwitchSelector from "react-native-switch-selector";
 import {
   heightPercentageToDP,
@@ -111,7 +113,10 @@ const SignupForm = ({
           .then(async (res) => {
             console.log(res);
             if(res.status ==200){
-              navigation.navigate('LoginScreen')
+              Alert.alert("Success!", "Created your account successfully", [
+                { text: "Okay",onPress:()=>{ navigation.navigate('LoginScreen')} },
+              ]);
+              
             }
             else{
               setErrorMessage("Something went wrong.");
@@ -187,7 +192,7 @@ const SignupForm = ({
 
             <Text>{"\n"}</Text>
             <View style={styles.container}>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 disabled={!isValid}
                 onPress={handleSubmit}
                 style={{
@@ -208,7 +213,17 @@ const SignupForm = ({
                 >
                   Sign Up
                 </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
+              <Button title="Sign Up" disabled={!isValid}
+                onPress={handleSubmit}
+                buttonStyle={{
+                  backgroundColor: "#9370DB",
+                  height: widthPercentageToDP("10%"),
+                  borderRadius: widthPercentageToDP("5%"),
+                  width: widthPercentageToDP("90%"),
+                  alignItems:'center',
+                  textAlign:'center '
+                }}/>
             </View>
           </>
         )}
@@ -225,8 +240,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    // justifyContent: "center",
     backgroundColor: "#f2f2f2",
+    position:'relative'
   },
   input: {
     paddingLeft: 10,

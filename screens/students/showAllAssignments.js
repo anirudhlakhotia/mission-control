@@ -31,13 +31,13 @@ const showAllAssignments = ({ navigation }) => {
     console.log(formBody);
     let response = await post('/api/assignments/student/requestExtension',formBody)
     console.log(typeof response.status)
-    if(response.status==500){
+    if(response.status==200){
       Alert.alert("Success", `You extended the assignment by ${id} points`, [
         { text: "Okay" },
       ]);
     }
     else{
-      Alert.alert("Sorry", "Unable to extend assignment ", [
+      Alert.alert("Sorry", "Unable to extend the  assignment. You may have insufficient credits or you have already purchased an extension for this assignment. ", [
         { text: "Okay" },
       ]);
     }

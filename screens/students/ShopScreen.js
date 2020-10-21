@@ -7,6 +7,7 @@ import {
   Dimensions,
   Image,
   ScrollView,
+  Alert
 } from "react-native";
 import {
   widthPercentageToDP as wp,
@@ -46,7 +47,11 @@ const ShopScreen = ({ navigation }) => {
         <Text>{"\n"}</Text>
         <Text>{"\n"}</Text>
         <Text>{"\n"}</Text>
-        <TouchableOpacity style={styles.touchableopacity}>
+        <TouchableOpacity style={styles.touchableopacity} onPress={() => {
+          Alert.alert("Sorry", "Unable to apply the dark mode. You  have insufficient credits. ", [
+            { text: "Okay" },
+          ]);
+        }}>
           <LinearGradient
             colors={["#000000", "#434343"]}
             start={[0.1, 0.1]}

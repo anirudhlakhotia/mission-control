@@ -4,6 +4,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { Button } from "react-native-elements";
 const FirstScreen = ({ navigation }) => {
   // const [state, setState] = useState({
   //     Name:'',
@@ -36,34 +37,10 @@ const FirstScreen = ({ navigation }) => {
       <Text>{"\n"}</Text>
       <Text style={styles.text}>Welcome</Text>
 
-      {/* <TextInput 
-        label="Email"
-        placeholder="Email"
-        value={state.Email}
-        blurOnSubmit={false}
-        maxLength={100}
-        onChangeText={(text) => setState({Email: text})}
-        style={{fontSize:wp('5%'),size:wp('5%'),marginTop:wp('5%'),marginLeft:wp("10%")}}
-      /> */}
-      <TouchableOpacity style={styles.button} onPress={print}>
-        <Text style={{ color: "white", textAlign: "center" }}>Continue</Text>
-      </TouchableOpacity>
-    </View>
-    //   <SignupForm
-    //     buttonText="Log in"
-    //     onSubmit={login}
-    //     onAuthentication={() => navigation.navigate('Home')}
-    //   >
-    //     <br>
-    //     </br>
-    //     <Button
-    //       color='black'
-    //       title="Create account"
-    //       onPress={() => navigation.navigate('Signup')}
-    //     />
 
-    // <Text style={{marginTop:20}}>{state.Name}</Text>
-    //   </SignupForm>
+      <Button title="Continue" buttonStyle={styles.button} onPress={print}/>
+    </View>
+
   );
 };
 
