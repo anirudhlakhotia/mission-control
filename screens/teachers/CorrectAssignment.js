@@ -10,7 +10,7 @@ const AssignmentSchema = yup.object({
   remarks: yup.string().required().min(5),
 });
 
-const CreateAssignment = ({ studentID, assignmentID }) => {
+const CorrectAssignment = ({ studentID, assignmentID }) => {
   return (
     <View>
       <Formik
@@ -26,6 +26,7 @@ const CreateAssignment = ({ studentID, assignmentID }) => {
             correctionLink: values.correctionLink,
             remarks: values.remarks,
           };
+          console.log(params);
           var formBody = [];
           for (var property in params) {
             var encodedKey = encodeURIComponent(property);
@@ -34,11 +35,11 @@ const CreateAssignment = ({ studentID, assignmentID }) => {
           }
           formBody = formBody.join("&");
           let res = await post(
-            "/api/assignments/teacher/makeAssignment",
+            "/api/assignment/teacher/uploadCorrection",
             formBody
           );
           console.log(res);
-          Alert.alert("Success", "You created the assignment", [
+          Alert.alert("Success", "You have uploaded the corrected assignment", [
             { text: "Okay" },
           ]);
         }}
@@ -47,7 +48,7 @@ const CreateAssignment = ({ studentID, assignmentID }) => {
           <View>
             <TextInput
               style={styles.input}
-              placeholder="Assignment Name"
+              placeholder="Correction Link"
               onChangeText={props.handleChange("correctionLink")}
               value={props.values.correctionLink}
               onBlur={props.handleBlur("correctionLink")}
@@ -59,7 +60,7 @@ const CreateAssignment = ({ studentID, assignmentID }) => {
 
             <TextInput
               style={styles.input}
-              placeholder="Assignment Link"
+              placeholder="Remarks"
               onChangeText={props.handleChange("remarks")}
               value={props.values.remarks}
               onBlur={props.handleBlur("remarks")}
@@ -99,4 +100,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateAssignment;
+export default CorrectAssignment;

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Image,
@@ -7,10 +7,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
-   Modal,
   StatusBar,
 } from "react-native";
-import { Card, Button } from "react-native-elements";
+import { Button, Icon } from "react-native-elements";
 import {
   heightPercentageToDP,
   widthPercentageToDP,
@@ -18,20 +17,20 @@ import {
 import { get } from "./../../api/fetch";
 import jwt_decode from "jwt-decode";
 import { LinearGradient } from "expo-linear-gradient";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 const StudentDash = ({ navigation }) => {
-  const [Assignments,setAssignments]=useState([])
-  const [Points,setPoints]=useState(0)
+  const [Assignments, setAssignments] = useState([]);
+  const [Points, setPoints] = useState(0);
   var token = navigation.getParam("data");
   useEffect(() => {
     async function getAssignments() {
-      let response = await get('/api/student/assignment/getAssignments')
-      console.log(response)
-      setAssignments(response.data.object)
+      let response = await get("/api/student/assignment/getAssignments");
+      console.log(response);
+      setAssignments(response.data.object);
     }
 
-    getAssignments()
-  }, [])
+    getAssignments();
+  }, []);
 
   for (var j in Assignments) {
     var date = new Date(Assignments[j].assignment_data.dueDate * 1000);
@@ -41,26 +40,25 @@ const StudentDash = ({ navigation }) => {
   }
   useEffect(() => {
     async function getPoints() {
-      let response = await get('/api/student/getPoints')
-      console.log(response.data)
-      setPoints(response.data.points)
+      let response = await get("/api/student/getPoints");
+      console.log(response.data);
+      setPoints(response.data.points);
     }
 
-    getPoints()
-  }, [])
-console.log('You have',Points)
+    getPoints();
+  }, []);
+  console.log("You have", Points);
 
-var DATA1=[]
-var DATA2=[]
-var DATA3=[]
-for(var i in Assignments){
-  console.log(Assignments[i].assignment_data)
-  DATA1=DATA1.concat([Assignments[i].assignment_data.assignmentName])
-  DATA2=DATA2.concat([Assignments[i].formattedDate])
-  DATA3=DATA3.concat([Assignments[i]._id])
-
-}
-console.log(DATA1)
+  var DATA1 = [];
+  var DATA2 = [];
+  var DATA3 = [];
+  for (var i in Assignments) {
+    console.log(Assignments[i].assignment_data);
+    DATA1 = DATA1.concat([Assignments[i].assignment_data.assignmentName]);
+    DATA2 = DATA2.concat([Assignments[i].formattedDate]);
+    DATA3 = DATA3.concat([Assignments[i]._id]);
+  }
+  console.log(DATA1);
 
   console.log(Assignments);
   const DATA = [
@@ -69,75 +67,64 @@ console.log(DATA1)
       title: DATA1[0],
       color1: "#9795EF",
       color2: "#F9C5D1",
-      duedate: DATA2[0]
+      duedate: DATA2[0],
     },
     {
       id: DATA3[1],
       title: DATA1[1],
       color1: "#fbc2eb",
       color2: "#a6c1ee",
-      duedate: DATA2[1]
+      duedate: DATA2[1],
     },
     {
       id: DATA3[2],
       title: DATA1[2],
       color1: "#F39FDC",
       color2: "#9AB5E1",
-      duedate: DATA2[2]
+      duedate: DATA2[2],
     },
   ];
 
   var decoded = jwt_decode(token);
   const goToShop = () => {
-    navigation.navigate("ShopScreen",{data:token,other:Assignments});
+    navigation.navigate("ShopScreen", { data: token, other: Assignments });
   };
-const submitAssignment=(id)=>{
-console.log('ID RECEIVED is',id)
-navigation.navigate("SubmitAssignment",{id:id})
-}
+  const submitAssignment = (id) => {
+    console.log("ID RECEIVED is", id);
+    navigation.navigate("SubmitAssignment", { id: id });
+  };
   return (
     <View style={{ position: "absolute", alignSelf: "center" }}>
       <Text>{"\n"}</Text>
       <Text>{"\n"}</Text>
       <Text style={styles.greeting}>Hi, {decoded.name}</Text>
-      <Text>{"\n"}</Text>
       <Text style={{ textAlign: "center", color: "#C0C0C0" }}>
         You currently have {Points} points
-        <TouchableOpacity onPress={goToShop}>
-          <View>
-            <Image
-              source={{ uri: "https://img.icons8.com/nolan/64/gift.png" }}
-              style={{
-                width: widthPercentageToDP("8%"),
-                height: heightPercentageToDP("8%"),
-                resizeMode: "contain",
-                // position: "absolute",
-                marginLeft: widthPercentageToDP("2%"),
-                marginTop: heightPercentageToDP("2%"),
-              }}
-            />
-          </View>
-        </TouchableOpacity>
-        {/* <TouchableOpacity onPress={goToShop}>
-              <View style={styles.imgrow}>
-                <Image
-                  source={{
-                    uri:
-                      "https://img.icons8.com/nolan/64/gift.png",
-                  }}
-                  style={{
-                    width: widthPercentageToDP("6%"),
-                    height: heightPercentageToDP("6%"),
-                    resizeMode:'contain',
-                    marginLeft: widthPercentageToDP("5%"),
-                  }}
-                />
-             
-              </View>
-          </TouchableOpacity> */}
       </Text>
+     <Button
+                icon={
+                  <Icon
+                    reverse
+                    name="shopping-bag"
+                    type="font-awesome"
+                    size={widthPercentageToDP("5%")}
+                    reverseColor="white"
+                    color="black"
+                  />
+                }
+                onPress={goToShop}
+                buttonStyle={{
+                  borderRadius: widthPercentageToDP("5%"),
+                  marginHorizontal: 5,
+                  backgroundColor: "#ffffff00",
+                  alignItems: "center",
+                  fontWeight: "100",
+
+                }}
+              />
       <SafeAreaView style={styles.container}>
         <FlatList
+        keyExtractor={(item) => item.id}
           data={DATA}
           renderItem={({ item }) => (
             <LinearGradient
@@ -145,19 +132,29 @@ navigation.navigate("SubmitAssignment",{id:id})
               start={[0.1, 0.1]}
               style={styles.linearGradient}
             >
-  {/* <TouchableOpacity onPress={()=>{
-    console.log(item)
-    submitAssignment(item.id)}}> */}
-              <TouchableOpacity disabled={true} style={styles.item} >
-
-              {/* <MaterialCommunityIcons name="file-send" size={widthPercentageToDP('5%')} style={{alignSelf:'flex-end',marginRight:widthPercentageToDP('5%')}} color="#ffffffbf" onPress={console.log(item)}/> */}
-              </TouchableOpacity>
+              <TouchableOpacity
+                disabled={true}
+                style={styles.item}
+              ></TouchableOpacity>
               <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.duedate}>{item.duedate}</Text>
+              <Icon
+                raised
+                reverse
+                type="ionicon"
+                name="ios-checkmark-circle-outline"
+                color="#ffffff66"
+                reverseColor="black"
+                containerStyle={{ position: "absolute", right: 0 }}
+                onPress={() =>{
+                  console.log('OTEM',item)
+                  navigation.navigate("SubmitAssignment", { id: item.id })
+                }
+                }
+              />
+              <Text style={styles.duedate}>{item.duedate}</Text>
               {/* </TouchableOpacity> */}
             </LinearGradient>
           )}
-          keyExtractor={(item) => item._id}
         />
       </SafeAreaView>
     </View>
@@ -181,21 +178,18 @@ const styles = StyleSheet.create({
   item: {
     width: widthPercentageToDP("80%"),
     backgroundColor: "transparent",
-    // padding: widthPercentageToDP('2%'),
-    // marginVertical: 8,
-    marginVertical: heightPercentageToDP('5%'),
-    // borderRadius: widthPercentageToDP("5%"),
+    marginVertical: heightPercentageToDP("5%"),
     borderColor: "transparent",
     textAlign: "center",
     borderWidth: 0,
-    marginBottom:widthPercentageToDP('2%'),
-    opacity:0
- 
+    marginBottom: widthPercentageToDP("2%"),
+    opacity: 0,
   },
   title: {
     fontSize: widthPercentageToDP("4%"),
     color: "#ffffff8f",
     textAlign: "center",
+    alignItems: "center",
     position: "relative",
     marginTop: widthPercentageToDP("-5%"),
   },
@@ -203,9 +197,9 @@ const styles = StyleSheet.create({
     fontSize: widthPercentageToDP("5%"),
     fontWeight: "200",
     color: "white",
-    alignSelf: "center",
-    position: "relative",
-    // marginTop: widthPercentageToDP("2%"),
+    alignItems: "center",
+    // position: "relative",
+    marginTop: widthPercentageToDP("2%"),
   },
   linearGradient: {
     width: widthPercentageToDP("70%"),
@@ -213,10 +207,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: widthPercentageToDP("5%"),
     textAlign: "center",
-    padding:widthPercentageToDP('3%')
+    padding: widthPercentageToDP("3%"),
   },
   imgrow: {
     flex: 1,
+    display: "flex",
     flexDirection: "row",
   },
 });

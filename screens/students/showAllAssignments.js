@@ -7,23 +7,21 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
-  TouchableWithoutFeedback,
 } from "react-native";
+import { ListItem, Icon,Button } from "react-native-elements";
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from "react-native-responsive-screen";
-import { MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import {post} from "./../../api/fetch";
-import ListItem from 'react-native-elements'
 const showAllAssignments = ({ navigation }) => {
   const Assignments = navigation.getParam("other");
   const token = navigation.getParam("data");
   const id = navigation.getParam("id");
   const [validExtension, setValidExtension] = useState(false);
   console.log(id);
-   async function postChange(_id){
+   async function pressHandler(_id){
     var params = {
       duration: id,
       assignmentID: _id,
@@ -32,19 +30,17 @@ const showAllAssignments = ({ navigation }) => {
     var formBody=encodeData(params)
     console.log(formBody);
     let response = await post('/api/assignments/student/requestExtension',formBody)
-    console.log(response)
-    // useEffect(() => {
-    //   async function postExtension() {
-    //     let response = await post('/api/assignments/student/requestExtension',formBody)
-    //     console.log(response)
-    //     if(res.status==200){
-    //       setValidExtension(True)
-    //     }
-
-    //   }
-    //   postExtension()
-    // },[])
-    // console.log(formBody)
+    console.log(typeof response.status)
+    if(response.status==500){
+      Alert.alert("Success", `You extended the assignment by ${id} points`, [
+        { text: "Okay" },
+      ]);
+    }
+    else{
+      Alert.alert("Sorry", "Unable to extend assignment ", [
+        { text: "Okay" },
+      ]);
+    }
   };
   function encodeData(params){
     var formBody = [];
@@ -58,51 +54,44 @@ const showAllAssignments = ({ navigation }) => {
   }
 
   return (
-    <LinearGradient
-      colors={["#fbc2eb", "#a6c1ee"]}
-      start={[0.1, 0.1]}
-      style={styles.linearGradient}
-    >
-      <FlatList
-        data={Assignments}
-        renderItem={({ item }) => (
-            <TouchableOpacity
-              style={styles.item}
-            >
-              <MaterialIcons
-                name="add"
-                size={30}
-                style={{ marginLeft: widthPercentageToDP("50%") }}
-                onPress={() => (postChange(item._id))}
-              />
-              <Text
-                style={{
-                  fontSize: widthPercentageToDP("5%"),
-                  textAlign: "center",
-                  marginRight: widthPercentageToDP("5%"),
-                  position: "absolute",
-                  color: "#ffffffa8",
-                }}
-              >
-                {item.assignment_data.assignmentName}
-              </Text>
-              <Text>{"\n"}</Text>
-              <Text>{"\n"}</Text>
-              <Text
-                style={{
-                  fontSize: widthPercentageToDP("3%"),
-                  textAlign: "left",
-                  marginRight: widthPercentageToDP("10%"),
-                  color: "#fff",
-                }}
-              >
-                {item.formattedDate}
-              </Text>
-            </TouchableOpacity>
-        )}
-        keyExtractor={(item) => item._id}
-      />
-    </LinearGradient>
+    <View style={{ margin: 15 }}>
+    <FlatList
+      keyExtractor={(item) => item._id}
+      data={Assignments}
+      renderItem={({ item }) => (
+        <ListItem
+          key={item.key}
+          linearGradientProps={{
+            colors: ["#9796f0", "#764ba2"],
+            start: { x: 1, y: 0 },
+            end: { x: 0.3, y: 0 },
+          }}
+          ViewComponent={LinearGradient}
+          containerStyle={{ margin: 5, borderRadius: 35 }}
+        >
+          <ListItem.Content>
+            <ListItem.Title style={{ color: "white", fontWeight: "bold" }}>
+              {item.assignment_data.assignmentName}
+            </ListItem.Title>
+            <ListItem.Subtitle style={{ color: "white" }}>
+              {`${item.formattedDate}`}
+            </ListItem.Subtitle>
+          </ListItem.Content>
+          <Icon
+            raised
+            reverse
+            raised
+            type="ionicon"
+            name="ios-add"
+            color="#ffffff66"
+            reverseColor='black'
+            onPress={() => pressHandler(item._id)}
+          />
+        </ListItem>
+      )}
+    />
+  </View>
+   
   );
 };
 

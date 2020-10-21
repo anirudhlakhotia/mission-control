@@ -11,7 +11,7 @@ const AssignmentSchema = yup.object({
   assignmentLink: yup.string().required().min(5),
 });
 
-const CreateAssignment = () => {
+const CreateAssignment = ({ closeModal }) => {
   const [date, setDate] = useState("2020-01-01");
 
   const changeDate = (dateCal) => {
@@ -27,8 +27,10 @@ const CreateAssignment = () => {
         }}
         validationSchema={AssignmentSchema}
         onSubmit={async (values) => {
+          closeModal();
           var params = {
-            dueDate: date,
+            studentID: studentID,
+            assignmentID: assignmentID,
             assignmentName: values.assignmentName,
             assignmentLink: values.assignmentLink,
           };
