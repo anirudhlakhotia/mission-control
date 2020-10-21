@@ -37,6 +37,7 @@ const Rewards = () => {
   return (
     <View style={{ margin: 15 }}>
       <FlatList
+        keyExtractor={(item) => item._id}
         data={students.object}
         renderItem={({ item }) => (
           <ListItem
