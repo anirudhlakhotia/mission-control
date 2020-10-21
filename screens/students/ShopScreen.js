@@ -86,7 +86,7 @@ const ShopScreen=({navigation})=>{
                     color: "white",
                   }}
                 >
-                  500
+                  1200
                 </Text>
               </View>
             </LinearGradient>
@@ -139,7 +139,7 @@ const ShopScreen=({navigation})=>{
                     color: "white",
                   }}
                 >
-                  20
+                  50
                 </Text>
               </View>
             </LinearGradient>
@@ -190,7 +190,7 @@ const ShopScreen=({navigation})=>{
                     color: "white",
                   }}
                 >
-                  50
+                  150
                 </Text>
               </View>
             </LinearGradient>

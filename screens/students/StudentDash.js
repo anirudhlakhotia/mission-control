@@ -9,7 +9,6 @@ import {
   FlatList,
    Modal,
   StatusBar,
-  TouchableWithoutFeedback,
 } from "react-native";
 import { Card, Button } from "react-native-elements";
 import {
@@ -93,7 +92,8 @@ console.log(DATA1)
     navigation.navigate("ShopScreen",{data:token,other:Assignments});
   };
 const submitAssignment=(id)=>{
-navigation.navigate("SubmitAssignment",{other:Assignments,id:id})
+console.log('ID RECEIVED is',id)
+navigation.navigate("SubmitAssignment",{id:id})
 }
   return (
     <View style={{ position: "absolute", alignSelf: "center" }}>
@@ -136,8 +136,6 @@ navigation.navigate("SubmitAssignment",{other:Assignments,id:id})
               </View>
           </TouchableOpacity> */}
       </Text>
-
-      <Text>{"\n"}</Text>
       <SafeAreaView style={styles.container}>
         <FlatList
           data={DATA}
@@ -147,14 +145,16 @@ navigation.navigate("SubmitAssignment",{other:Assignments,id:id})
               start={[0.1, 0.1]}
               style={styles.linearGradient}
             >
-  <TouchableOpacity onPress={()=>{submitAssignment(item._id)}}>
-              <Card containerStyle={styles.item} >
+  <TouchableOpacity onPress={()=>{
+    console.log(item)
+    submitAssignment(item.id)}}>
+              <TouchableOpacity style={styles.item} >
 
               {/* <MaterialCommunityIcons name="file-send" size={widthPercentageToDP('5%')} style={{alignSelf:'flex-end',marginRight:widthPercentageToDP('5%')}} color="#ffffffbf" onPress={console.log(item)}/> */}
 
                 <Text style={styles.title}>{item.title}</Text>
                 <Text style={styles.duedate}>{item.duedate}</Text>
-              </Card>
+              </TouchableOpacity>
               </TouchableOpacity>
             </LinearGradient>
           )}
@@ -181,13 +181,15 @@ const styles = StyleSheet.create({
   },
   item: {
     width: widthPercentageToDP("80%"),
-    backgroundColor: "#ffffff00",
-    // padding: 20,
+    backgroundColor: "transparent",
+    // padding: widthPercentageToDP('2%'),
     // marginVertical: 8,
     marginVertical: heightPercentageToDP('5%'),
-    borderRadius: widthPercentageToDP("5%"),
+    // borderRadius: widthPercentageToDP("5%"),
+    borderColor: "transparent",
     textAlign: "center",
-    borderWidth: 0
+    borderWidth: 0,
+    marginBottom:widthPercentageToDP('2%'),
   },
   title: {
     fontSize: widthPercentageToDP("4%"),

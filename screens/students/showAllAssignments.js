@@ -16,7 +16,7 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import {post} from "./../../api/fetch";
-import ListView from 'react-native-elements'
+import ListItem from 'react-native-elements'
 const showAllAssignments = ({ navigation }) => {
   const Assignments = navigation.getParam("other");
   const token = navigation.getParam("data");
@@ -84,7 +84,7 @@ const showAllAssignments = ({ navigation }) => {
                   color: "#ffffffa8",
                 }}
               >
-                {item.assignmentName}
+                {item.assignment_data.assignmentName}
               </Text>
               <Text>{"\n"}</Text>
               <Text>{"\n"}</Text>

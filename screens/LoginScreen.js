@@ -141,7 +141,7 @@ const LoginScreen = ({ navigation }) => {
                   textAlign: "center",
                   color: "white",
                   fontFamily: "sans-serif",
-                  marginTop: widthPercentageToDP("2%"),
+                  marginTop: widthPercentageToDP("3%"),
                 }}
               >
                 LOGIN

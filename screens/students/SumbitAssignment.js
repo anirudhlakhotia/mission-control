@@ -1,27 +1,99 @@
-import React, { Component } from "react";
+import React, { Component,useState } from "react";
+import { get, post } from "../../api/fetch";
 import {
   StyleSheet,
   TouchableOpacity,
   Text,
+  TextInput,
   View,
   Image,
-  ScrollView,
+  Alert,
 } from "react-native";
+import { Button,Icon } from "react-native-elements";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
   widthPercentageToDP,
+  heightPercentageToDP,
 } from "react-native-responsive-screen";
 import { LinearGradient } from "expo-linear-gradient";
-class SubmitAssignment extends Component {
-    render(){
+import { Formik } from "formik";
+import * as yup from "yup";
+
+const AssignmentSchema = yup.object({
+  assignmentLink: yup.string().required().min(5),
+});
+const SubmitAssignment =({navigation})=> {
+  var id= navigation.getParam('id')
+  console.log(id)
         return(
-        <TouchableOpacity style={styles.touchableopacity2}>
-            <LinearGradient
+          <View style={{alignItems:'center',marginTop:heightPercentageToDP('40%')}}>
+          <Formik
+            initialValues={{
+              assignmentLink: "",
+            }}
+            validationSchema={AssignmentSchema}
+            onSubmit={async (values) => {
+              var params = {
+                assignmentID:id,
+                assignmentLink: values.assignmentLink,
+              };
+              var formBody = [];
+              for (var property in params) {
+                var encodedKey = encodeURIComponent(property);
+                var encodedValue = encodeURIComponent(params[property]);
+                formBody.push(encodedKey + "=" + encodedValue);
+              }
+              formBody = formBody.join("&");
+              let res = await post(
+                "/api/student/assignment/submitAssignment",
+                formBody
+              );
+              console.log(res);
+              Alert.alert("Success", "You submitted the assignment", [
+                { text: "Okay" },
+              ]);
+            }}
+          >
+            {(props) => (
+              <View>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Assignment Link"
+                  onChangeText={props.handleChange("assignmentLink")}
+                  value={props.values.assignmentLink}
+                  onBlur={props.handleBlur("assignmentLink")}
+                />
+    
+                <Text style={styles.errorText}>
+                  {props.touched.assignmentLink && props.errors.assignmentLink}
+                </Text>
+                <LinearGradient
               colors={["#434343", "#434343"]}
               start={[0.1, 0.1]}
               style={styles.linearGradient}
-            >
+            >    
+                <Button
+                  icon={
+                    <Icon
+                      reverse
+                      name="ios-cloud-upload"
+                      type='ionicon'
+                      size={widthPercentageToDP('5%')}
+                      reverseColor="white"
+                      color='black'
+                    />
+                  }
+                  title=" SUMBIT ASSIGNMENT"
+                  onPress={props.handleSubmit}
+                  buttonStyle={{ borderRadius: widthPercentageToDP('5%'), marginHorizontal: 5 ,backgroundColor:'#ffffff00',textAlign:'center',fontWeight:'100'}}
+                                  />
+                      </LinearGradient>
+              </View>
+            )}
+          </Formik>
+        {/* <TouchableOpacity style={styles.touchableopacity2}>
+           
               <View style={styles.imgrow}>
                 <Image
                   source={{
@@ -29,8 +101,8 @@ class SubmitAssignment extends Component {
                       "https://img.icons8.com/cotton/64/000000/upload-to-cloud.png",
                   }}
                   style={{
-                    width: wp("20%"),
-                    height: hp("20%"),
+                    width: wp("5%"),
+                    height: hp("5%"),
                     resizeMode: "center",
                     flexDirection: "row",
                     marginLeft: wp("5%"),
@@ -49,9 +121,10 @@ class SubmitAssignment extends Component {
                  CLICK TO SUBMIT
                 </Text>
               </View>
-            </LinearGradient>
-          </TouchableOpacity>
-         ) }
+      
+          </TouchableOpacity> */}
+          </View>
+         ) 
   
 }
 const styles = StyleSheet.create({
@@ -61,6 +134,21 @@ const styles = StyleSheet.create({
       fontSize: wp("8%"),
       fontFamily: "sans-serif",
       alignSelf: "center",
+    },
+    input: {
+      borderWidth: 1,
+      borderColor: "#ddd",
+      padding: 10,
+      fontSize: 18,
+      borderRadius: widthPercentageToDP('10%'),
+      marginHorizontal: 5,
+    },
+    errorText: {
+      color: "crimson",
+      fontWeight: "bold",
+      marginBottom: 10,
+      marginTop: 6,
+      textAlign: "center",
     },
     content: {
       fontWeight: "100",
@@ -73,11 +161,12 @@ const styles = StyleSheet.create({
     },
     touchableopacity2: {
       borderRadius: wp("5%"),
-      width: wp("70%"),
-      height:hp('10%'),
+      width: wp("80%"),
+      height:hp('30%'),
       alignSelf: "center",
       position: "absolute",
       marginTop: hp("40%"),
+      textAlign: "center"
     },
     imgrow: {
       flex: 1,
