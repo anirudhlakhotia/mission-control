@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, FlatList, Alert, ActivityIndicator, Text } from "react-native";
+import { View, FlatList, Alert } from "react-native";
 import { ListItem, Icon } from "react-native-elements";
 import { LinearGradient } from "expo-linear-gradient";
 import { get, post } from "../../api/fetch";

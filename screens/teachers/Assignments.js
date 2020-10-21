@@ -41,22 +41,6 @@ const Assignments = () => {
         style={styles.modalToggle}
         onPress={() => setModalOpen(true)}
       />
-
-      {/* <FlatList
-        keyExtractor={(item) => item._id}
-        data={assignments}
-        renderItem={({ item }) => (
-          <Card containerStyle={{ borderRadius: 15 }}>
-            <Card.Content>
-              <Card.Title>{item.assignmentName}</Card.Title>
-              <Text style={{ marginVertical: 15 }}>
-                Reward your students with points for their interactivity in
-                class
-              </Text>
-            </Card.Content>
-          </Card>
-        )}
-      /> */}
     </View>
   );
 };

@@ -59,11 +59,10 @@ const screens = {
       title: "Rewards Shop",
     },
   },
-  
 };
 
 const Navigator = createStackNavigator(screens, {
-  initialRouteName: "First",
+  initialRouteName: "Home",
 });
 
 export default createAppContainer(Navigator);

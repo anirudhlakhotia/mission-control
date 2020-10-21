@@ -3,7 +3,7 @@ import { StyleSheet, TextInput, View, Text, Alert } from "react-native";
 import { Button } from "react-native-elements";
 import { Formik } from "formik";
 import { get, post } from "../../api/fetch";
-import CalendarPicker from "react-native-calendar-picker";
+import { Calendar } from "react-native-calendars";
 import * as yup from "yup";
 
 const AssignmentSchema = yup.object({
@@ -90,7 +90,7 @@ const CreateAssignment = () => {
               Select Due Date
             </Text>
 
-            <CalendarPicker onDateChange={changeDate} />
+            <Calendar minDate={Date()} onDayPress={changeDate} />
 
             <Button
               title="Submit"
